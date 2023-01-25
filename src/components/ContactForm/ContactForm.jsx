@@ -42,7 +42,7 @@ export class ContactForm extends Component {
           <Span>Name</Span>
           <Input
             type="text"
-            placeholder="Введіть ім'я"
+            placeholder="Enter your first and second name"
             name="name"
             value={this.state.name}
             onChange={handleChange}
@@ -56,7 +56,7 @@ export class ContactForm extends Component {
           <Span>Number</Span>
           <Input
             type="tel"
-            placeholder="Введіть номер"
+            placeholder="Enter your phone number"
             name="number"
             value={this.state.number}
             onChange={handleChange}

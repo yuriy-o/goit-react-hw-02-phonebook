@@ -15,7 +15,7 @@ export class App extends Component {
     ],
   };
 
-  //! (addBook)
+  //! (addContact)
   formSubmitHandler = ({ name, number }) => {
     const { contacts } = this.state;
     const newContact = {
@@ -35,12 +35,21 @@ export class App extends Component {
         }));
   };
 
+  removeContact(id) {
+    this.setState(({ contacts }) => {
+      const newContacts = contacts.filter(contact => contact.id !== id);
+      return { contacts: newContacts };
+    });
+  }
+
   render() {
     const { contacts } = this.state;
     const contactItems = contacts.map(({ id, name, number }) => (
       <Li key={id}>
         {name}: {number}
-        <Button type="button">Delete</Button>
+        <Button onClick={() => this.removeContact(id)} type="button">
+          Delete
+        </Button>
       </Li>
     ));
 
@@ -54,7 +63,7 @@ export class App extends Component {
           <p>Find contacts by name</p>
           <input
             type="text"
-            placeholder="Введіть ім'я"
+            placeholder="Enter a name to search for"
             name="filter"
             required
           />

@@ -20,6 +20,11 @@ export const Input = styled.input`
   width: 250px;
   height: 30px;
   font-size: 20px;
+
+  ::placeholder {
+    font-size: 14px;
+    font-style: italic;
+  }
 `;
 export const Button = styled.button`
   display: block;
