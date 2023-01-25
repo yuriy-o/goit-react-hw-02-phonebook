@@ -8,13 +8,14 @@ export class ContactForm extends Component {
     name: '',
     number: '',
   };
+
   //! Записує данні з інпуту в STATE
   handleChange = e => {
     const { name, value } = e.currentTarget;
     this.setState({ [name]: value });
   };
 
-  //! (addBook)
+  //! (addContact)
   handleSubmit = e => {
     e.preventDefault();
 
@@ -25,7 +26,7 @@ export class ContactForm extends Component {
     this.reset();
   };
 
-  //! Додаті інші дінні для сброса форми
+  //! Очищення форми після submit
   reset = () => {
     this.setState({
       name: '',
@@ -35,6 +36,7 @@ export class ContactForm extends Component {
 
   render() {
     const { handleSubmit, handleChange } = this;
+    const { name, number } = this.state;
 
     return (
       <Form onSubmit={handleSubmit}>
@@ -44,7 +46,7 @@ export class ContactForm extends Component {
             type="text"
             placeholder="Enter your first and second name"
             name="name"
-            value={this.state.name}
+            value={name}
             onChange={handleChange}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
@@ -58,7 +60,7 @@ export class ContactForm extends Component {
             type="tel"
             placeholder="Enter your phone number"
             name="number"
-            value={this.state.number}
+            value={number}
             onChange={handleChange}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
