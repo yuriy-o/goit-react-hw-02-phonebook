@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-// import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
 
 import { Button, Form, Label, Span, Input } from './ContactForm.styled';
 
+//! форма це завжди класовий компонент
 export class ContactForm extends Component {
   state = {
     name: '',
@@ -19,11 +20,16 @@ export class ContactForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    console.log('this.state', this.state);
+    // this.props.onSubmitForm(this.state); //? Короткий запис без умови, ↓↓↓ або ↓↓↓
 
-    this.props.onForm(this.state);
+    //? З this.props забираємо onSubmitForm
+    const { onSubmitForm } = this.props;
+    //? та в onSubmitForm передає на гору в стейт
+    const result = onSubmitForm({ ...this.state });
 
-    this.reset();
+    if (result) {
+      this.reset();
+    }
   };
 
   //! Очищення форми після submit
@@ -73,3 +79,8 @@ export class ContactForm extends Component {
     );
   }
 }
+
+//! ВИДАЄ ПОМИЛКУ ЯКЩО .isRequired
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func,
+};

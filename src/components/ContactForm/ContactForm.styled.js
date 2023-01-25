@@ -17,7 +17,7 @@ export const Form = styled.form`
 `;
 export const Input = styled.input`
   margin-bottom: 10px;
-  width: 250px;
+  width: 100%;
   height: 30px;
   font-size: 20px;
 
@@ -39,9 +39,6 @@ export const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
   transition: all 500ms ease;
-  /* :not(:last-child) {
-    margin-right: 10px;
-  } */
 
   :hover {
     background: rgba(0, 0, 0, 0);

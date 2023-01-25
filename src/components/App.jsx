@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
+
 // import PropTypes from 'prop-types';
 
-import { Button, Container, H1, H2, Li } from './App.styled';
+import { Container, H1, H2, Warning } from './App.styled';
 import { ContactForm } from './ContactForm/ContactForm';
+import { ContactList } from './ContactList/ContactList';
+import { ContactsFilter } from './ContactsFilter/ContactsFilter';
+
+import { contacts } from './contacts.js';
 
 export class App extends Component {
   state = {
-    contacts: [
-      { id: nanoid(), name: 'Rosie Simpson', number: '459-12-56' },
-      { id: nanoid(), name: 'Hermione Kline', number: '443-89-12' },
-      { id: nanoid(), name: 'Eden Clements', number: '645-17-79' },
-      { id: nanoid(), name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [...contacts],
     filter: '',
   };
 
@@ -45,12 +45,12 @@ export class App extends Component {
     return Boolean(contactCheck);
   }
 
-  removeContact(id) {
+  removeContact = id => {
     this.setState(({ contacts }) => {
       const newContacts = contacts.filter(contact => contact.id !== id);
       return { contacts: newContacts };
     });
-  }
+  };
   handleInputChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
@@ -70,34 +70,21 @@ export class App extends Component {
   };
 
   render() {
+    const { removeContact, handleInputChange } = this;
     const contacts = this.filterContactByName();
-    const contactItems = contacts.map(({ id, name, number }) => (
-      <Li key={id}>
-        {name}: {number}
-        <Button onClick={() => this.removeContact(id)} type="button">
-          Delete
-        </Button>
-      </Li>
-    ));
+    const isContacts = Boolean(contacts.length);
 
     return (
       <Container>
         <H1>Phonebook</H1>
-        <ContactForm onForm={this.formSubmitHandler} />
+        <ContactForm onSubmitForm={this.formSubmitHandler} />
         <H2>Contacts</H2>
+        <ContactsFilter handleInputChange={handleInputChange} />
 
-        <label>
-          <p>Find contacts by name</p>
-          <input
-            type="text"
-            onChange={this.handleInputChange}
-            placeholder="Enter a name to search for"
-            name="filter"
-            required
-          />
-        </label>
-
-        <ol>{contactItems}</ol>
+        {isContacts && (
+          <ContactList removeContact={removeContact} contacts={contacts} />
+        )}
+        {!isContacts && <Warning>No contacts in the list</Warning>}
       </Container>
     );
   }
