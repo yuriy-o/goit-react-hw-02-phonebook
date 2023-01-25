@@ -1,29 +1,27 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
+// import PropTypes from 'prop-types';
 
+import { Button, Container, H1, H2, Li } from './App.styled';
 import { ContactForm } from './ContactForm/ContactForm';
-import { ContactList } from './ContactList/ContactList';
-import { Filter } from './ContactsFilter/Filter';
-
-import { Box } from './App.styled';
 
 export class App extends Component {
   state = {
     contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      { id: nanoid(), name: 'Rosie Simpson', number: '459-12-56' },
+      { id: nanoid(), name: 'Hermione Kline', number: '443-89-12' },
+      { id: nanoid(), name: 'Eden Clements', number: '645-17-79' },
+      { id: nanoid(), name: 'Annie Copeland', number: '227-91-26' },
     ],
-    filter: '',
   };
 
-  addNewContact = ({ name, number }) => {
+  //! (addBook)
+  formSubmitHandler = ({ name, number }) => {
     const { contacts } = this.state;
     const newContact = {
+      id: nanoid(),
       name: name.trim(),
       number: number.trim(),
-      id: nanoid(),
     };
 
     const contactCheck = contacts.find(contact => {
@@ -37,47 +35,33 @@ export class App extends Component {
         }));
   };
 
-  handleInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  filterContactByName = () => {
-    const { filter, contacts } = this.state;
-    const normalizedFilter = filter.toLowerCase().trim();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
-  deleteContact = idContact => {
-    const { contacts } = this.state;
-    const arrayContactsNoDelete = contacts.filter(
-      contact => contact.id !== idContact
-    );
-    this.setState(prevState => ({
-      contacts: arrayContactsNoDelete,
-    }));
-  };
-
   render() {
-    const filterContactsByName = this.filterContactByName();
-    const { filter } = this.state;
-    return (
-      <>
-        <Box>
-          <h1>Phonebook</h1>
-          <ContactForm onSubmit={this.addNewContact} />
+    const { contacts } = this.state;
+    const contactItems = contacts.map(({ id, name, number }) => (
+      <Li key={id}>
+        {name}: {number}
+        <Button type="button">Delete</Button>
+      </Li>
+    ));
 
-          <h2>Contacts</h2>
-          <div>
-            <Filter filterValue={filter} inputChange={this.handleInputChange} />
-            <ContactList
-              contactsByRender={filterContactsByName}
-              onDeleteContact={this.deleteContact}
-            />
-          </div>
-        </Box>
-      </>
+    return (
+      <Container>
+        <H1>Phonebook</H1>
+        <ContactForm onForm={this.formSubmitHandler} />
+        <H2>Contacts</H2>
+
+        <label>
+          <p>Find contacts by name</p>
+          <input
+            type="text"
+            placeholder="Введіть ім'я"
+            name="filter"
+            required
+          />
+        </label>
+
+        <ol>{contactItems}</ol>
+      </Container>
     );
   }
 }
