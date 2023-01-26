@@ -8,25 +8,13 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { ContactsFilter } from './ContactsFilter/ContactsFilter';
 
-// import { contacts } from './contacts.js';
+import { contacts } from './contacts.js';
 
 export class App extends Component {
   state = {
-    contacts: [],
-    // contacts: [...contacts], //? додає стартові значення з масиву контактів
+    contacts: [...contacts],
     filter: '',
   };
-
-  componentDidMount() {
-    const contacts = JSON.parse(localStorage.getItem('contacts'));
-    this.setState({ contacts });
-  }
-
-  //? Спрацьовує після кожного оновлення state
-  componentDidUpdate() {
-    const { contacts } = this.state;
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }
 
   //! (addContact)
   formSubmitHandler = ({ name, number }) => {
