@@ -22,7 +22,7 @@ export class ContactForm extends Component {
 
     // this.props.onSubmitForm(this.state); //? Короткий запис без умови, ↓↓↓ або ↓↓↓
 
-    //? З this.props забираємо onSubmitForm
+    //?  Забираємо onSubmitForm з this.props
     const { onSubmitForm } = this.props;
     //? та в onSubmitForm передає на гору в стейт
     const result = onSubmitForm({ ...this.state });
